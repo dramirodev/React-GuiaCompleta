@@ -52,7 +52,7 @@ Si nunca has escrito  código React pero tienes deseos de aprenderlo, estas en e
 
 10. PROYECTO: Cotizador de Criptomonedas
 
-   Veremos como tomar 10 criptomonedas y cotizarlas en TIEMPO REAL para obtener su precio al momento, ya sea Bitcoin a USD o Ethereum a Peso Mexicano los datos vienen desde una API y aprenderemos más sobre Styled Components.
+     Veremos como tomar 10 criptomonedas y cotizarlas en TIEMPO REAL para obtener su precio al momento, ya sea Bitcoin a USD o Ethereum a Peso Mexicano los datos vienen desde una API y aprenderemos más sobre Styled Components.
 
 11. PROYECTO: Buscador de Noticias con una API
     
