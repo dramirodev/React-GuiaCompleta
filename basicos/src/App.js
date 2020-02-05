@@ -11,7 +11,7 @@ function App() {
         { id: 1, nombre: 'Camisa ReactJs', precio: 50 },
         { id: 2, nombre: 'Camisa VueJs', precio: 40 },
         { id: 3, nombre: 'Camisa Node.js', precio: 30 },
-        { id: 4, nombre: 'Camisa Angular', precio: 20 },
+        { id: 4, nombre: 'Camisa Angular', precio: 20, },
     ]);
 
     // Carrito de compras
