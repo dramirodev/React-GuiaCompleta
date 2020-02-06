@@ -1,5 +1,6 @@
-import React, { createContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+
 export const RecetasContext = createContext();
 
 const RecetasProvider = (props) => {
@@ -12,22 +13,17 @@ const RecetasProvider = (props) => {
     const [consultar, setConsultar] = useState(false);
     const { nombre, categoria } = busqueda;
 
-    const obtenerRecetas = useCallback(async () => {
-        const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${nombre}&c=${categoria}`;
-        const recetas = await axios.get(url);
-        setRecetas(recetas.data.drinks);
-    }, [busqueda]);
-
     useEffect(() => {
-        try {
-            if (consultar) {
-                obtenerRecetas();
-            }
-        } catch (error) {
-            setConsultar(false);
-            throw new Error('No se pudo obtener la receta');
+        if (consultar) {
+            const obtenerRecetas = async () => {
+                const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${nombre}&c=${categoria}`;
+                const resultado = await axios.get(url);
+                console.log(resultado);
+                setRecetas(resultado.data.drinks);
+            };
+            obtenerRecetas();
         }
-    }, [busqueda]);
+    }, [categoria, consultar, nombre]);
 
     return (
         <RecetasContext.Provider

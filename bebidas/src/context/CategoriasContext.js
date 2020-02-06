@@ -21,7 +21,7 @@ const CategoriasProvider = (props) => {
         } catch (error) {
             throw new Error('Error al traer las categorias');
         }
-    }, []);
+    }, [obtenerCategorias]);
 
     // Todo  lo que esté en el return es lo que va a estar disponible
     return (
