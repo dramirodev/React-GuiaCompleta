@@ -1,6 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { crearNuevoProductoAction } from '../redux/actions/ProductosActions';
 
-const NuevoProducto = () => {
+const NuevoProducto = ({ history }) => {
+    const [nombre, setNombre] = useState('');
+    const [precio, setPrecio] = useState(0);
+    const dispatch = useDispatch();
+    const loading = useSelector((state) => state.productos.loading);
+    const error = useSelector((state) => state.productos.error);
+
+    const agregarProducto = (producto) =>
+        dispatch(crearNuevoProductoAction(producto));
+    const submitNuevoProducto = (e) => {
+        e.preventDefault();
+
+        if (nombre.trim() === '' || precio <= 0) {
+            return;
+        }
+
+        agregarProducto({
+            nombre,
+            precio,
+        });
+        history.push('/');
+    };
     return (
         <div className='row justify-content-center'>
             <div className='col-md-8'>
@@ -9,7 +32,7 @@ const NuevoProducto = () => {
                         <h2 className='text-center mb-4 font-weight-bold'>
                             Agregar Nuevo Producto
                         </h2>
-                        <form>
+                        <form onSubmit={submitNuevoProducto}>
                             <div className='form-group'>
                                 <label>Nombre Producto</label>
                                 <input
@@ -17,6 +40,8 @@ const NuevoProducto = () => {
                                     className='form-control'
                                     placeholder='Nombre producto'
                                     name='nombre'
+                                    value={nombre}
+                                    onChange={(e) => setNombre(e.target.value)}
                                 />
                             </div>
                             <div className='form-group'>
@@ -26,6 +51,10 @@ const NuevoProducto = () => {
                                     className='form-control'
                                     placeholder='Precio de producto'
                                     name='precio'
+                                    value={precio}
+                                    onChange={(e) =>
+                                        setPrecio(Number(e.target.value, 10))
+                                    }
                                 />
                             </div>
                             <div className='form-group'>
@@ -36,6 +65,12 @@ const NuevoProducto = () => {
                                 />
                             </div>
                         </form>
+                        {loading && <p>Cargando...</p>}
+                        {error && (
+                            <p className='alert alert-danger p2 text-center mt-4'>
+                                Error en la creación del producto
+                            </p>
+                        )}
                     </div>
                 </div>
             </div>
