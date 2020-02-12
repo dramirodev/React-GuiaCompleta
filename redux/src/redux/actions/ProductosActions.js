@@ -5,6 +5,12 @@ import {
     COMENZAR_DESCARGA_PRODUCTOS,
     COMENZAR_DESCARGA_PRODUCTOS_EXITO,
     COMENZAR_DESCARGA_PRODUCTOS_ERROR,
+    OBTENER_PRODUCTO_ELIMINAR,
+    OBTENER_PRODUCTO_ELIMINAR_EXITO,
+    OBTENER_PRODUCTO_ELIMINAR_ERROR,
+    OBTENER_PRODUCTO_EDITAR,
+    OBTENER_PRODUCTO_EDITAR_EXITO,
+    OBTENER_PRODUCTO_EDITAR_ERROR,
 } from '../types';
 import clienteAxios from '../../config/axios';
 import Swal from 'sweetalert2';
@@ -52,6 +58,24 @@ export function descargarTodosProductosAction() {
     };
 }
 
+export function eliminarProductoAction(id) {
+    return async (dispatch) => {
+        dispatch(eliminarProducto(id));
+        try {
+            await clienteAxios.delete(`/productos/${id}`);
+            dispatch(eliminarProductoExito());
+            Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        } catch {
+            dispatch(eliminarProductoEroor(true));
+            Swal.fire({
+                icon: 'error',
+                title: 'Hubo un error',
+                text: 'Hubo un error en la conexión del servidor',
+            });
+        }
+    };
+}
+
 const agregarProducto = () => ({
     type: AGREGAR_PRODUCTO,
 });
@@ -77,3 +101,19 @@ const descargarProductosError = (estado) => ({
     type: COMENZAR_DESCARGA_PRODUCTOS_ERROR,
     payload: estado,
 });
+
+const eliminarProducto = (id) => ({
+    type: OBTENER_PRODUCTO_ELIMINAR,
+    payload: id,
+});
+
+const eliminarProductoExito = () => ({
+    type: OBTENER_PRODUCTO_ELIMINAR_EXITO,
+});
+
+const eliminarProductoEroor = (estado) => {
+    return {
+        type: OBTENER_PRODUCTO_ELIMINAR_ERROR,
+        payload: estado,
+    };
+};

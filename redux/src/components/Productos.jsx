@@ -38,8 +38,10 @@ const Productos = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {productos.length
-                        ? productos.map((prod) => <Producto key={prod.id} producto={prod} />)
+                    {productos.length > 0
+                        ? productos.map((prod) => (
+                              <Producto key={prod.id} producto={prod} />
+                          ))
                         : null}
                 </tbody>
             </table>
