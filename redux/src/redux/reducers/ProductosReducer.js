@@ -20,6 +20,7 @@ const initialState = {
     error: false,
     loading: false,
     productoEliminar: null,
+    productoEditar: null,
 };
 
 export default function(state = initialState, action) {
@@ -82,6 +83,11 @@ export default function(state = initialState, action) {
                 ...state,
                 error: action.payload,
                 loading: false,
+            };
+        case OBTENER_PRODUCTO_EDITAR:
+            return {
+                ...state,
+                productoEditar: action.payload,
             };
 
         default:

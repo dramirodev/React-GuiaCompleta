@@ -76,6 +76,17 @@ export function eliminarProductoAction(id) {
     };
 }
 
+export function editarProductoAction(producto) {
+    return async (dispatch) => {
+        dispatch(obtenerProductoAction(producto));
+    };
+}
+
+export const obtenerProductoAction = (producto) => ({
+    type: OBTENER_PRODUCTO_EDITAR,
+    payload: producto,
+});
+
 const agregarProducto = () => ({
     type: AGREGAR_PRODUCTO,
 });
