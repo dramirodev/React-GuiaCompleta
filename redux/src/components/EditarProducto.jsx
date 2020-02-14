@@ -1,13 +1,25 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { editarNuevoProductoAction } from '../redux/actions/ProductosActions';
 
-const EditarProducto = () => {
-    const dispatch = useDispatch();
+const EditarProducto = ({ history }) => {
     const producto = useSelector((state) => state.productos.productoEditar);
-
+    const dispatch = useDispatch();
     const { nombre, precio, id } = producto;
     const [nombreEditar, setNombreEditar] = useState(nombre);
     const [precioEditar, setPrecioEditar] = useState(precio);
+
+    const editarProductoHandle = (e) => {
+        e.preventDefault();
+        const productoEditado = {
+            nombre: nombreEditar,
+            precio: precioEditar,
+            id,
+        };
+        dispatch(editarNuevoProductoAction(productoEditado));
+        history.push('/');
+    };
+
     return (
         <div className='row justify-content-center'>
             <div className='col-md-8'>
@@ -16,7 +28,7 @@ const EditarProducto = () => {
                         <h2 className='text-center mb-4 font-weight-bold'>
                             Editar Producto
                         </h2>
-                        <form>
+                        <form onSubmit={editarProductoHandle}>
                             <div className='form-group'>
                                 <label>Nombre Producto</label>
                                 <input

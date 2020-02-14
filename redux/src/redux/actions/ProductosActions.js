@@ -9,8 +9,9 @@ import {
     OBTENER_PRODUCTO_ELIMINAR_EXITO,
     OBTENER_PRODUCTO_ELIMINAR_ERROR,
     OBTENER_PRODUCTO_EDITAR,
-    OBTENER_PRODUCTO_EDITAR_EXITO,
-    OBTENER_PRODUCTO_EDITAR_ERROR,
+    EDICION_PRODUCTO,
+    EDICION_PRODUCTO_EXITO,
+    EDICION_PRODUCTO_ERROR,
 } from '../types';
 import clienteAxios from '../../config/axios';
 import Swal from 'sweetalert2';
@@ -23,7 +24,6 @@ export function crearNuevoProductoAction(producto) {
         try {
             await clienteAxios.post('/productos', producto);
             dispatch(agregarProductoExito(producto));
-
             Swal.fire(
                 'Correcto',
                 'El producto se agregó correctamente',
@@ -76,9 +76,49 @@ export function eliminarProductoAction(id) {
     };
 }
 
+export function editarNuevoProductoAction(producto) {
+    return async (dispatch) => {
+        dispatch(editarNuevoproducto());
+        try {
+            const resultado = await clienteAxios.patch(
+                `/productos/${producto.id}`,
+                producto,
+            );
+            dispatch(editarProductoExitoAction(producto));
+            Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        } catch (error) {
+            dispatch(editarProductoErrorAction(true));
+            Swal.fire({
+                icon: 'error',
+                title: 'Hubo un error',
+                text: 'Hubo un error en la conexión del servidor',
+            });
+        }
+    };
+}
+
 export function editarProductoAction(producto) {
     return async (dispatch) => {
         dispatch(obtenerProductoAction(producto));
+    };
+}
+
+const editarNuevoproducto = () => {
+    return {
+        type: EDICION_PRODUCTO,
+    };
+};
+export function editarProductoExitoAction(producto) {
+    return {
+        type: EDICION_PRODUCTO_EXITO,
+        payload: producto,
+    };
+}
+
+export function editarProductoErrorAction(estado) {
+    return {
+        type: EDICION_PRODUCTO_ERROR,
+        payload: estado,
     };
 }
 
