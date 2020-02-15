@@ -3,18 +3,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { editarNuevoProductoAction } from '../redux/actions/ProductosActions';
 
 const EditarProducto = ({ history }) => {
-    const producto = useSelector((state) => state.productos.productoEditar);
+    const producto = useSelector(({ productos }) => productos.productoEditar);
     const dispatch = useDispatch();
-    const { nombre, precio, id } = producto;
-    const [nombreEditar, setNombreEditar] = useState(nombre);
-    const [precioEditar, setPrecioEditar] = useState(precio);
+    const [nombreEditar, setNombreEditar] = useState('');
+    const [precioEditar, setPrecioEditar] = useState('');
+    const [idEditar, setIdEditar] = useState(0);
+
+    if (producto !== null) {
+        setNombreEditar(producto.nombre);
+        setPrecioEditar(producto.precio);
+        setIdEditar(producto.id);
+    }
 
     const editarProductoHandle = (e) => {
         e.preventDefault();
         const productoEditado = {
             nombre: nombreEditar,
             precio: precioEditar,
-            id,
+            id: idEditar,
         };
         dispatch(editarNuevoProductoAction(productoEditado));
         history.push('/');

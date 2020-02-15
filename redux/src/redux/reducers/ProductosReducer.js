@@ -90,6 +90,27 @@ export default function(state = initialState, action) {
                 ...state,
                 productoEditar: action.payload,
             };
+        case EDICION_PRODUCTO:
+            return {
+                ...state,
+                loading: true,
+            };
+        case EDICION_PRODUCTO_EXITO:
+            return {
+                ...state,
+                productoEditar: null,
+                productos: state.productos.map((producto) =>
+                    producto.id === action.payload.id
+                        ? action.payload
+                        : producto,
+                ),
+            };
+        case EDICION_PRODUCTO_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
 
         default:
             return state;

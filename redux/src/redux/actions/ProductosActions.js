@@ -80,10 +80,7 @@ export function editarNuevoProductoAction(producto) {
     return async (dispatch) => {
         dispatch(editarNuevoproducto());
         try {
-            const resultado = await clienteAxios.patch(
-                `/productos/${producto.id}`,
-                producto,
-            );
+            await clienteAxios.patch(`/productos/${producto.id}`, producto);
             dispatch(editarProductoExitoAction(producto));
             Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
         } catch (error) {
