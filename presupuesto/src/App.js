@@ -1,52 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import Pregunta from './components/Pregunta';
 import Formulario from './components/Formulario';
+import Listado from './components/Listado';
+import ControlPresupuesto from './components/ControlPresupuesto';
 
 function App() {
     const [presupuesto, setPresupuesto] = useState(0);
     const [restante, setRestante] = useState(0);
     const [mostrarPregunta, setMostrarPregunta] = useState(true);
     const [gastos, setGastos] = useState([]);
+    const [gasto, setGasto] = useState(0);
 
-    const setArrayGastos = (nuevoGasto) => {
-        setGastos([nuevoGasto, ...gastos]);
+    const updateGastos = useCallback(() => {
+        setGastos([gasto, ...gastos]);
+    }, [gasto, gastos]);
+    useEffect(() => {
+        if (gasto !== 0 && !gastos.some((g) => g.id === gasto.id)) {
+            updateGastos();
+        }
         setRestante((restante) => {
-            if (nuevoGasto.cantidad >= restante) {
+            if (gasto.cantidad >= restante) {
                 return 0;
             }
-            return restante - nuevoGasto.cantidad;
+            return restante - gasto.cantidad;
         });
-    };
+    }, [gasto, gastos, updateGastos]);
 
     useEffect(() => {
-        const presupuestoStorage = JSON.parse(
-            localStorage.getItem('presupuesto'),
-        );
-        if (Object.keys(presupuestoStorage).length > 0) {
-            setPresupuesto(presupuestoStorage[presupuesto]);
-            setRestante(presupuestoStorage[restante]);
-            setGastos(presupuestoStorage[gastos]);
+        if (presupuesto && restante) {
+            setMostrarPregunta(false);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-    useEffect(() => {
-        let actual = true;
-        if (actual) {
-            if (presupuesto) {
-                setMostrarPregunta(false);
-            }
-        }
-        return () => (actual = false);
-    }, [presupuesto]);
-
-    useEffect(() => {
-        setPresupuesto(restante);
-        localStorage.setItem(
-            'presupuesto',
-            JSON.stringify({ presupuesto, restante, gastos }),
-        );
-    }, [gastos, presupuesto, restante]);
+    }, [presupuesto, restante]);
 
     return (
         <div className='container'>
@@ -62,12 +47,14 @@ function App() {
                     ) : (
                         <div className='row'>
                             <div className='one-half column'>
-                                <Formulario setArrayGastos={setArrayGastos} />
+                                <Formulario setArrayGastos={setGasto} />
                             </div>
                             <div className='one-half column'>
-                                {gastos.map((gasto) => {
-                                    return <p>{gasto.nombre}</p>;
-                                })}
+                                <Listado gastos={gastos} />
+                                <ControlPresupuesto
+                                    presupuesto={presupuesto}
+                                    restante={restante}
+                                />
                             </div>
                         </div>
                     )}

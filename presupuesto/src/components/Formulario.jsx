@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { validarNumero } from '../utils';
 import Error from './Error';
-import { shortid } from 'shortid';
+import shortid from 'shortid';
 
 const Formulario = ({ setArrayGastos }) => {
     const [nombreGasto, setNombreGasto] = useState('');
@@ -15,12 +15,12 @@ const Formulario = ({ setArrayGastos }) => {
             setError(true);
             return;
         }
-
-        setArrayGastos({
+        const gasto = {
             nombre: nombreGasto,
             cantidad,
-            id: shortid.uuid(),
-        });
+            id: shortid.generate(),
+        };
+        setArrayGastos(gasto);
     };
     return (
         <form onSubmit={guardarGasto}>
