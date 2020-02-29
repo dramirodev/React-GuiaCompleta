@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import './SendTweet.scss';
 import { Fab } from '@material-ui/core';
 import Add from '@material-ui/icons/Add';
 import ModalContainer from '../ModalContainer';
 import moment from 'moment';
 import FormSendTweet from '../FormSendTweet';
 import { TWEET_STORAGE } from '../../utils/constants.js';
+import './SendTweet.scss';
 
-const SendTweet = ({ setToastProps, allTweets }) => {
+const SendTweet = ({ setToastProps, allTweets, setReloadTweet }) => {
     const [isOpenModal, setIsOpenModal] = useState(false);
 
     const openModal = () => {
@@ -22,7 +22,7 @@ const SendTweet = ({ setToastProps, allTweets }) => {
         e.preventDefault();
         const { name, tweet } = formValue;
         let allTweet = [];
-        if (allTweets.length) {
+        if (allTweets !== null && allTweets.length > 0) {
             allTweet = allTweets;
         }
         if (!name || !tweet) {
@@ -39,6 +39,7 @@ const SendTweet = ({ setToastProps, allTweets }) => {
                 open: true,
                 text: 'SUCCESS: Tweet enviado correctamente',
             });
+            setReloadTweet(true);
         }
         allTweet = [];
     };
