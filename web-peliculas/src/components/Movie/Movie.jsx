@@ -2,11 +2,12 @@ import React from 'react';
 import './Movie.scss';
 import { Button } from 'antd';
 import { Link } from 'react-router-dom';
+import { DB_MOVIES_DATA } from '../../utils/constats';
 
 export default function Movie({ movie }) {
     const { id, backdrop_path, title, overview } = movie;
 
-    const backdropPath = `https://image.tmdb.org/t/p/original/${backdrop_path}`;
+    const backdropPath = `${DB_MOVIES_DATA.url_imagen}${backdrop_path}`;
     return (
         <div
             className='slider-movies__movie'
