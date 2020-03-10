@@ -8,8 +8,9 @@ import Error404 from './pages/error404';
 import Movie from './pages/movie';
 import Popular from './pages/popular';
 import NewMovies from './pages/new-movies';
-import Search from './pages/search';
+import Search from './pages/search/';
 import MenuTop from './components/MenuTop';
+import Footer from './components/Footer';
 
 function App() {
     const { Header, Content } = Layout;
@@ -42,6 +43,7 @@ function App() {
                     </Switch>
                 </Content>
             </Router>
+            <Footer />
         </Layout>
     );
 }

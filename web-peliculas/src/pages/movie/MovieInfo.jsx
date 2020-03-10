@@ -16,6 +16,7 @@ const MovieInfo = ({ title, id, release_date, overview, genres }) => {
     const closeModal = () => setIsVisibleModal(false);
     const renderVideo = () => {
         if (videoMovie.data) {
+            console.log(videoMovie.data);
             if (videoMovie.data.results.length) {
                 return (
                     <>

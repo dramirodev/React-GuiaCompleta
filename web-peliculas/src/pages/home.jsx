@@ -31,7 +31,6 @@ const Home = () => {
                     />
                 </Col>
             </Row>
-            <Footer />
         </>
     );
 };

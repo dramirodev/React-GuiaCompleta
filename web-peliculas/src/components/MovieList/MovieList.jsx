@@ -7,7 +7,6 @@ import './MovieList.scss';
 import { DB_MOVIES_DATA } from '../../utils/constats';
 
 const MovieList = ({ peliculas, title }) => {
-    console.log(peliculas);
 
     if (peliculas.loading || !peliculas.data) {
         return <Loading />;
