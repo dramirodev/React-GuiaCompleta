@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 // Pages
 import Home from './pages/home';
-import Error404 from './pages/error404';
+import Error404 from './pages/error404/';
 import Movie from './pages/movie';
 import Popular from './pages/popular';
 import NewMovies from './pages/new-movies';

@@ -12,32 +12,33 @@ const Search = (props) => {
     useEffect(() => {
         (async () => {
             const searchValue = queryString.parseUrl(location.search);
-            const {
-                query: { s },
-            } = searchValue;
+            const { s } = searchValue.query;
             const response = await fetch(
                 `${DB_MOVIES_DATA.url}/search/movie?api_key=${DB_MOVIES_DATA.api_key}&language=es-ES&query=${s}&page=1`,
             );
-            const movies = response.json();
+            const movies = await response.json();
 
             setSearchValue(s);
             setMovieList(movies);
         })();
     }, [location.search]);
 
-    console.log(movieList);
+    const onChangeSearch = (e) => {
+        const urlParams = queryString.parse(location.search);
+        urlParams.s = e.target.value;
+        history.push(`?${queryString.stringify(urlParams)}`);
+        setSearchValue(e.target.value);
+    };
 
     return (
-        <Row>
+        <Row gutter={[16, 16]}>
             <Col span={12} offset={6} className='search'>
                 <h1>Busca tu pelicula</h1>
-                <Input value={searchValue} />
+                <Input value={searchValue} onChange={onChangeSearch} />
             </Col>
             {movieList.results && (
                 <Row>
-                    <Col span={24}>
-                        <MovieCatalog movies={movieList} />
-                    </Col>
+                    <MovieCatalog movies={movieList} />
                 </Row>
             )}
         </Row>
