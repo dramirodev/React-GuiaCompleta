@@ -1,0 +1,16 @@
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 64px);
+    width: 100%;
+    background-color: rgba($color: #3b3b3f85, $alpha: 0.5);
+    text-align: center;
+    z-index: 1px;
+
+    .spinner-border{
+        height: 5rem;
+        width: 5rem;
+        border: -.75em solid currentColor;
+    }
+}

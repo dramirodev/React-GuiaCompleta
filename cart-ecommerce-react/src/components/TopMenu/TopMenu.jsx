@@ -1,6 +1,6 @@
 import React from 'react';
 import { Nav, Navbar, Container } from 'react-bootstrap';
-import { ReactComponent as Logo } from '../../assets/img/logo.svg';
+import { ReactComponent as Logo } from '../../assets/svg/logo.svg';
 
 import './TopMenu.scss';
 export default function TopMenu() {
