@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row } from 'react-bootstrap';
 import Product from '../Product/';
 
-const Products = ({ products }) => {
+const Products = ({ products, addProductCart }) => {
     return (
         <Container>
             <Row>
@@ -11,6 +11,7 @@ const Products = ({ products }) => {
                         <Product
                             product={producto}
                             key={`${producto.id}_${index}`}
+                            addProductCart={addProductCart}
                         />
                     );
                 })}

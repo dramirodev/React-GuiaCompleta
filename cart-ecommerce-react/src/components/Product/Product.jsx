@@ -1,9 +1,8 @@
 import React from 'react';
 import { Col, Card, Button } from 'react-bootstrap';
-import { BASE_PATH } from '../../utils/constants';
 import './Product.scss';
 
-const Product = ({ product }) => {
+const Product = ({ product, addProductCart }) => {
     return (
         <Col xs={3} className='product'>
             <Card>
@@ -11,8 +10,12 @@ const Product = ({ product }) => {
                 <Card.Body>
                     <Card.Title>{product.name}</Card.Title>
                     <Card.Text>{product.extraInfo}</Card.Text>
-                    <Card.Text>{product.price} € /ud</Card.Text>
-                    <Button>Añadir al carrito</Button>
+                    <Card.Text>{product.price.toFixed(2)} € /ud</Card.Text>
+                    <Button
+                        onClick={() => addProductCart(product.id, product.name)}
+                    >
+                        Añadir al carrito
+                    </Button>
                 </Card.Body>
             </Card>
         </Col>
