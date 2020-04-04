@@ -5,28 +5,22 @@ const useFetch = (url, options) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const fetchData = async () => {
-        try {
-            const result = await fetch(url, options);
-            const response = await result.json();
-            setData(response);
-            setLoading(false);
-        } catch (error) {
-            setError(error);
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await fetch(url, options);
+                const response = await result.json();
+                setData(response);
+                setLoading(false);
+            } catch (error) {
+                setError(error);
+                setLoading(false);
+            }
+        };
         fetchData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [options, url]);
 
-    return {
-        data,
-        error,
-        loading,
-    };
+    return [data, error, loading];
 };
 
 export default useFetch;
