@@ -1,24 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './components/Header';
 import Formulario from './components/Formulario';
-import styled from '@emotion/styled';
-const Contenedor = styled.h1`
-    max-width: 60%;
-    margin: 0 auto;
-`;
-
-const ContenedorFormulario = styled.div`
-    background-color: #fff;
-    padding: 3rem;
-`;
+import Resumen from './components/Resumen';
+import Resultado from './components/Resultado';
+import Spinner from './components/Spinner';
+import { Contenedor, ContenedorFormulario } from './utils/styles';
 
 function App() {
+    const [resumen, setResumen] = useState({
+        marca: '',
+        year: '',
+        plan: '',
+        price: 0,
+    });
+    const [cargando, setCargando] = useState(false);
     return (
         <>
             <Contenedor>
                 <Header titulo={'Cotizador de seguros'} />
                 <ContenedorFormulario>
-                    <Formulario />
+                    <Formulario
+                        setResumen={setResumen}
+                        setCargando={setCargando}
+                    />
+                    {cargando ? (
+                        <Spinner />
+                    ) : (
+                        <>
+                            <Resumen resumen={resumen} />
+                            <Resultado price={resumen.price} />
+                        </>
+                    )}
                 </ContenedorFormulario>
             </Contenedor>
         </>

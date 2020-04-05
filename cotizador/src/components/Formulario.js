@@ -1,55 +1,19 @@
 import React, { useState } from 'react';
-import styled from '@emotion/styled';
+import {
+    Error,
+    Campo,
+    Label,
+    Select,
+    InputRadio,
+    Boton,
+} from '../utils/styles';
+import {
+    obtenerDiferenciaYear,
+    calcularResultadoSegunMarca,
+    calcularResultadoSegunPlan,
+} from '../utils/helper';
 
-const Campo = styled.div`
-    display: flex;
-    margin-bottom: 1rem;
-    align-items: center;
-`;
-
-const Label = styled.label`
-    flex: 0 0 100px;
-`;
-
-const Select = styled.select`
-    display: block;
-    width: 100%;
-    padding: 1rem;
-    border: 1px solid #e1e1e1;
-    -webkit-appearance: none;
-`;
-
-const InputRadio = styled.input`
-    margin: 0 1rem;
-`;
-
-const Boton = styled.button`
-    background-color: #00838f;
-    font-size: 16px;
-    width: 100%;
-    padding: 1rem;
-    color: #fff;
-    text-transform: uppercase;
-    font-weight: none;
-    border: none;
-    transition: background-color 0.3s ease;
-    margin-top: 2rem;
-
-    &:hover {
-        cursor: pointer;
-        background-color: #26c6da;
-    }
-`;
-
-const Error = styled.div`
-    background-color: red;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    margin-bottom: 2rem;
-`;
-
-const Formulario = () => {
+const Formulario = ({ setResumen, setCargando }) => {
     const [datos, setDatos] = useState({
         marca: '',
         year: '',
@@ -73,6 +37,12 @@ const Formulario = () => {
         }
 
         // Obtener la diferencia de años
+        const diferenciaYear = obtenerDiferenciaYear(year);
+
+        let result = 2000;
+        result -= result * ((diferenciaYear * 3) / 100);
+
+        console.log(result);
 
         // Por cada año hay que restar el 3%
 
@@ -80,10 +50,24 @@ const Formulario = () => {
         // Asiatico 3%
         // Europeo 30%
 
+        result = calcularResultadoSegunMarca(marca, result);
+
         // Basico aumenta 20%
         // Completo 50 %
 
         // Total
+
+        const price = parseFloat(
+            calcularResultadoSegunPlan(result, plan).toFixed(2),
+        );
+        setCargando(true);
+        setTimeout(() => {
+            setCargando(false);
+            setResumen({
+                ...datos,
+                price,
+            });
+        }, 1500);
 
         setError(false);
     };
