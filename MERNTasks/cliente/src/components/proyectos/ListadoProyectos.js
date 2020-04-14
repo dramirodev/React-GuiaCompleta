@@ -7,7 +7,7 @@ const ListadoProyectos = () => {
 
     const { proyectos, obtenerLosProyectos } = context;
 
-   // Obtener proyecto cuando carga el componente
+    // Obtener proyecto cuando carga el componente
     useEffect(() => {
         obtenerLosProyectos();
     }, []);
