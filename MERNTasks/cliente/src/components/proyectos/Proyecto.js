@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import proyectoContext from '../../context/proyectos/proyectoContext';
 import TareasContext from '../../context/tareas/tareasContext';
 
@@ -19,12 +20,15 @@ const Proyecto = ({ proyecto }) => {
             <button
                 type='button'
                 className='btn btn-blank'
-                onClick={seleccioanrProyecto}
-            >
+                onClick={seleccioanrProyecto}>
                 {proyecto.nombre}
             </button>
         </li>
     );
+};
+
+Proyecto.propTypes = {
+    proyecto: PropTypes.object.isRequired,
 };
 
 export default Proyecto;

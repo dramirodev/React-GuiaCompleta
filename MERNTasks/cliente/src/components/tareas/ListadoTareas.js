@@ -1,42 +1,37 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Tarea from './Tarea';
 import proyectoContext from '../../context/proyectos/proyectoContext';
 import TareasContext from '../../context/tareas/tareasContext';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 const ListadoTareas = () => {
-    const [actualProyecto, setActualProyecto] = useState(null);
-    const [tareasProyectoActual, setTareasProyectoActual] = useState([]);
     const proyectoscontext = useContext(proyectoContext);
     const tareasContext = useContext(TareasContext);
 
     const { proyecto, eliminarProyectoActual } = proyectoscontext;
-
-    useEffect(() => {
-        if (proyecto) {
-            const [proyectoActual] = proyecto;
-            const { tareasProyecto } = tareasContext;
-            setActualProyecto(proyectoActual);
-            setTareasProyectoActual(tareasProyecto);
-        } else {
-            setActualProyecto(null);
-            setTareasProyectoActual(null);
-        }
-    }, [proyecto, tareasContext]);
+    const { tareasProyecto } = tareasContext;
 
     const handleOnclickEliminarProyecto = () => {
-        eliminarProyectoActual(actualProyecto.id);
+        eliminarProyectoActual(proyecto.id);
     };
 
     return (
         <>
-            {actualProyecto ? (
+            {proyecto ? (
                 <div>
-                    <h2>Proyecto: {actualProyecto.nombre}</h2>
+                    <h2>Proyecto: {proyecto.nombre}</h2>
                     <ul className='listado-tareas'>
-                        {tareasProyectoActual.length > 0 ? (
-                            tareasProyectoActual.map((tarea) => (
-                                <Tarea tarea={tarea} />
-                            ))
+                        {tareasProyecto.length > 0 ? (
+                            <TransitionGroup>
+                                {tareasProyecto.map((tarea) => (
+                                    <CSSTransition
+                                        key={tarea.id}
+                                        timeout={300}
+                                        classNames='tarea'>
+                                        <Tarea tarea={tarea} />
+                                    </CSSTransition>
+                                ))}
+                            </TransitionGroup>
                         ) : (
                             <li className='tarea sombra'>
                                 <p>No hay tareas</p>
@@ -44,8 +39,7 @@ const ListadoTareas = () => {
                         )}
                         <button
                             className='btn btn-eliminar'
-                            onClick={handleOnclickEliminarProyecto}
-                        >
+                            onClick={handleOnclickEliminarProyecto}>
                             Eliminar Proyecto &times;
                         </button>
                     </ul>

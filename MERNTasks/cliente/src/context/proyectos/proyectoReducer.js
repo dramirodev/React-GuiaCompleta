@@ -37,7 +37,7 @@ export default (state, action) => {
         case PROYECTO_ACTUAL:
             return {
                 ...state,
-                proyecto: state.proyectos.filter(
+                proyecto: state.proyectos.find(
                     (proyecto) => proyecto.id === action.payload,
                 ),
             };
