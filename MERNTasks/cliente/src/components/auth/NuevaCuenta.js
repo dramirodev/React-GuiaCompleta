@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import AlertaContext from '../../context/alertas/alertasContext';
 
 const NuevaCuenta = () => {
+    const alertaContext = useContext(AlertaContext);
+
+    const { alerta, mostrarAlerta } = alertaContext;
+
     const [usuario, guardarUsuario] = useState({
-        nobreUsuario: '',
+        nombreUsuario: '',
         email: '',
         password: '',
         confirmar: '',
     });
 
-    const { email, password, nobreUsuario, confirmar } = usuario;
+    const { email, password, nombreUsuario, confirmar } = usuario;
     const handleOnchageEmail = () => {};
     const handleOnchagePassword = () => {};
     const handleOnchageForm = (e) => {
@@ -24,16 +29,45 @@ const NuevaCuenta = () => {
         e.preventDefault();
 
         // validar que no haya campos vacios
+        if (
+            nombreUsuario.trim() === '' ||
+            email.trim() === '' ||
+            password.trim() === '' ||
+            confirmar.trim() === ''
+        ) {
+            mostrarAlerta('Todos los campos son obligatorios', 'alerta-error');
+            return;
+        }
 
         // Validar que password sea de 6 caracteres
 
+        if (password.trim().length < 6) {
+            mostrarAlerta(
+                'El password debe ser al menos de 6 caracteres',
+                'alerta-error',
+            );
+            return;
+        }
+
         // Validar que los dos passwords sean iguales
 
+        if (password.trim() !== confirmar.trim()) {
+            mostrarAlerta(
+                'Password y confirmar Password deben de ser iguales',
+                'alerta-error',
+            );
+            return;
+        }
+
         // pasarlo al action
+        
     };
 
     return (
         <div className='form-usuario'>
+            {alerta && (
+                <div className={`alerta ${alerta.categoria}`}>{alerta.msg}</div>
+            )}
             <div className='contenedor-form sombra-dark'>
                 <h1>Crear Cuenta</h1>
                 <form onSubmit={onSubmitForm}>
@@ -43,7 +77,7 @@ const NuevaCuenta = () => {
                             type='text'
                             name='nombreUsuario'
                             id='nombreUsuario'
-                            value={nobreUsuario}
+                            value={nombreUsuario}
                             placeholder='Tu nombre de usuario'
                             onChange={handleOnchageForm}
                         />
