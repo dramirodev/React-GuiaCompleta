@@ -1,20 +1,34 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AlertaContext from '../../context/alertas/alertasContext';
+import AutenticationContext from '../../context/autentication/authContext';
 
-const NuevaCuenta = () => {
+const NuevaCuenta = (props) => {
     const alertaContext = useContext(AlertaContext);
-
-    const { alerta, mostrarAlerta } = alertaContext;
+    const authContext = useContext(AutenticationContext);
 
     const [usuario, guardarUsuario] = useState({
-        nombreUsuario: '',
+        nombre: '',
         email: '',
         password: '',
         confirmar: '',
     });
 
-    const { email, password, nombreUsuario, confirmar } = usuario;
+    const { alerta, mostrarAlerta } = alertaContext;
+    const { mensaje, autenticado, registrarUsuario } = authContext;
+
+    // En caso de que el usuario se haya intentado registrar
+    useEffect(() => {
+        if (autenticado) {
+            props.history.push('/proyectos');
+        }
+
+        if (mensaje) {
+            mostrarAlerta(mensaje.msg, mensaje.categoria);
+        }
+    }, [mensaje, autenticado, props.history]);
+
+    const { email, password, nombre, confirmar } = usuario;
     const handleOnchageEmail = () => {};
     const handleOnchagePassword = () => {};
     const handleOnchageForm = (e) => {
@@ -30,7 +44,7 @@ const NuevaCuenta = () => {
 
         // validar que no haya campos vacios
         if (
-            nombreUsuario.trim() === '' ||
+            nombre.trim() === '' ||
             email.trim() === '' ||
             password.trim() === '' ||
             confirmar.trim() === ''
@@ -60,7 +74,11 @@ const NuevaCuenta = () => {
         }
 
         // pasarlo al action
-        
+        registrarUsuario({
+            nombre,
+            email,
+            password,
+        });
     };
 
     return (
@@ -72,12 +90,12 @@ const NuevaCuenta = () => {
                 <h1>Crear Cuenta</h1>
                 <form onSubmit={onSubmitForm}>
                     <div className='campo-form'>
-                        <label htmlFor='nombreUsuario'>Nombre de Usuario</label>
+                        <label htmlFor='nombre'>Nombre de Usuario</label>
                         <input
                             type='text'
-                            name='nombreUsuario'
-                            id='nombreUsuario'
-                            value={nombreUsuario}
+                            name='nombre'
+                            id='nombre'
+                            value={nombre}
                             placeholder='Tu nombre de usuario'
                             onChange={handleOnchageForm}
                         />
@@ -118,7 +136,7 @@ const NuevaCuenta = () => {
                     <div className='campo-form'>
                         <input
                             type='submit'
-                            value='Iniciar Sesión'
+                            value='Crear nueva cuenta'
                             className='btn btn-primario btn-block'
                         />
                     </div>
