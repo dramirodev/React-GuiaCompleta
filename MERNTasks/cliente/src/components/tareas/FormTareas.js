@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import proyectoContext from '../../context/proyectos/proyectoContext';
 import TareasContext from '../../context/tareas/tareasContext';
-import { v4 as uuidv4 } from 'uuid';
 
 const FormTareas = () => {
     const proyectosContext = useContext(proyectoContext);
@@ -12,6 +11,7 @@ const FormTareas = () => {
     });
 
     const { proyecto } = proyectosContext;
+
     const {
         tareaActual,
         actualizarTarea,
@@ -42,7 +42,6 @@ const FormTareas = () => {
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
-
         if (nombre.trim() === '') {
             validarTarea();
             return;
@@ -52,10 +51,8 @@ const FormTareas = () => {
             actualizarTarea(tarea);
         } else {
             agregarTarea({
-                estado: false,
-                proyectoId: proyecto.id,
+                proyecto: proyecto._id,
                 nombre: tarea.nombre,
-                id: uuidv4(),
             });
         }
 

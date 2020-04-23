@@ -12,7 +12,7 @@ const ListadoTareas = () => {
     const { tareasProyecto } = tareasContext;
 
     const handleOnclickEliminarProyecto = () => {
-        eliminarProyectoActual(proyecto.id);
+        eliminarProyectoActual(proyecto._id);
     };
 
     return (
@@ -25,7 +25,7 @@ const ListadoTareas = () => {
                             <TransitionGroup>
                                 {tareasProyecto.map((tarea) => (
                                     <CSSTransition
-                                        key={tarea.id}
+                                        key={tarea._id}
                                         timeout={300}
                                         classNames='tarea'>
                                         <Tarea tarea={tarea} />

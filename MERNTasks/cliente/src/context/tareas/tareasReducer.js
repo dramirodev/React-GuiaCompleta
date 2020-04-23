@@ -3,7 +3,6 @@ import {
     AGREGAR_TAREA,
     VALIDAR_TAREA,
     ELIMINAR_TAREA,
-    ESTADO_TAREA,
     TAREA_ACTUAL,
     ACTUALIZAR_TAREA,
 } from '../../types';
@@ -13,12 +12,12 @@ export default (state, action) => {
         case TAREAS_PROYECTO:
             return {
                 ...state,
-                tareasProyecto: tareasProyecto(state.tareas, action.payload),
+                tareasProyecto: action.payload,
             };
         case AGREGAR_TAREA:
             return {
                 ...state,
-                tareas: state.tareas.concat(action.payload),
+                tareasProyecto: state.tareasProyecto.concat(action.payload),
                 errorTarea: false,
             };
         case VALIDAR_TAREA:
@@ -30,17 +29,8 @@ export default (state, action) => {
             return {
                 ...state,
                 tareasProyecto: state.tareasProyecto.filter(
-                    (tarea) => tarea.id !== action.payload,
+                    (tarea) => tarea._id !== action.payload,
                 ),
-            };
-        case ESTADO_TAREA:
-            return {
-                ...state,
-                tareasProyecto: state.tareasProyecto.map((tarea) => {
-                    return tarea.id === action.payload.id
-                        ? action.payload
-                        : tarea;
-                }),
             };
         case TAREA_ACTUAL:
             return {
@@ -51,7 +41,7 @@ export default (state, action) => {
             return {
                 ...state,
                 tareasProyecto: state.tareasProyecto.map((tarea) =>
-                    tarea.id === action.payload.id ? action.payload : tarea,
+                    tarea._id === action.payload._id ? action.payload : tarea,
                 ),
                 tareaActual: null,
             };
@@ -59,9 +49,4 @@ export default (state, action) => {
         default:
             return state;
     }
-};
-const tareasProyecto = (tareas, id) => {
-    let nuevoArrayTareas = [...tareas];
-
-    return nuevoArrayTareas.filter((tarea) => tarea.proyectoId === id);
 };

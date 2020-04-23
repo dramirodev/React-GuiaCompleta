@@ -23,11 +23,11 @@ const Login = (props) => {
         if (mensaje) {
             mostrarAlerta(mensaje.msg.msg, mensaje.categoria);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mensaje, autenticado, props.history]);
 
     const { email, password } = usuario;
-    const handleOnchageEmail = () => {};
-    const handleOnchagePassword = () => {};
+
     const handleOnchageForm = (e) => {
         guardarUsuario({
             ...usuario,

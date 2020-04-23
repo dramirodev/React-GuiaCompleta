@@ -34,7 +34,7 @@ exports.crearTarea = async (req, res) => {
 };
 
 exports.obtenerTareasPorProyecto = async (req, res) => {
-    const { proyecto } = req.body;
+    const { proyecto } = req.query;
     try {
         const proyectoRequerido = await Proyecto.findById(proyecto);
 
@@ -54,6 +54,7 @@ exports.obtenerTareasPorProyecto = async (req, res) => {
 exports.actualizarTarea = async (req, res) => {
     try {
         const { proyecto, nombre, estado } = req.body;
+        console.log(proyecto);
         const proyectoRequerido = await Proyecto.findById(proyecto);
 
         // Revisamos que exista el proyecto
@@ -72,13 +73,8 @@ exports.actualizarTarea = async (req, res) => {
         }
 
         const nuevaTarea = {};
-
-        if (nombre) {
-            nuevaTarea.nombre = nombre;
-        }
-        if (estado) {
-            nuevaTarea.estado = estado;
-        }
+        nuevaTarea.nombre = nombre;
+        nuevaTarea.estado = estado;
 
         tarea = await Tarea.findByIdAndUpdate(
             { _id: req.params.id },

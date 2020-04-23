@@ -8,6 +8,7 @@ const Barra = (props) => {
 
     useEffect(() => {
         obtenerUsuarioAutenticado();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const cerrarSesionUsuario = () => {

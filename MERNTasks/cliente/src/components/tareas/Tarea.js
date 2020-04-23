@@ -9,13 +9,13 @@ const Tarea = ({ tarea }) => {
 
     const {
         eliminarTareaById,
-        cambiaEstadoTarea,
         extraerTareaActual,
+        actualizarTarea
     } = tareasContext;
     const { proyecto } = proyectosContext;
 
     const handleOnclickEliminarTarea = (id) => {
-        eliminarTareaById(id);
+        eliminarTareaById(id, proyecto._id);
     };
     const handleEstadoTarea = () => {
         const { estado } = tarea;
@@ -23,7 +23,7 @@ const Tarea = ({ tarea }) => {
             ...tarea,
             estado: !estado,
         };
-        cambiaEstadoTarea(nuevaTarea);
+        actualizarTarea(nuevaTarea);
     };
     const handleOnClickEditar = () => {
         extraerTareaActual(tarea);
@@ -57,7 +57,7 @@ const Tarea = ({ tarea }) => {
                 </button>
                 <button
                     className='btn btn-secundario'
-                    onClick={() => handleOnclickEliminarTarea(tarea.id)}>
+                    onClick={() => handleOnclickEliminarTarea(tarea._id)}>
                     Eliminar
                 </button>
             </div>

@@ -12,6 +12,7 @@ const Proyectos = () => {
 
     useEffect(() => {
         obtenerUsuarioAutenticado();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

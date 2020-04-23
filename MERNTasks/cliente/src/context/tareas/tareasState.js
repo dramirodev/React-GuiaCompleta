@@ -6,49 +6,46 @@ import {
     AGREGAR_TAREA,
     VALIDAR_TAREA,
     ELIMINAR_TAREA,
-    ESTADO_TAREA,
     TAREA_ACTUAL,
     ACTUALIZAR_TAREA,
 } from '../../types';
+import clienteAxios from '../../config/axios.config';
 
 const TareasState = (props) => {
     const initialState = {
-        tareas: [
-            {
-                nombre: 'Elegir plataforma ',
-                estado: true,
-                proyectoId: 1,
-                id: 1,
-            },
-            { nombre: 'Elegir Colores ', estado: false, proyectoId: 2, id: 2 },
-            {
-                nombre: 'Elegir Plataforma de pago ',
-                estado: false,
-                proyectoId: 3,
-                id: 4,
-            },
-            { nombre: 'Elegir Hosting ', estado: true, proyectoId: 4, id: 3 },
-        ],
-        tareasProyecto: null,
+        tareasProyecto: [],
         tareaActual: null,
         errorTarea: false,
     };
 
     const [state, dispatch] = useReducer(TareasReducer, initialState);
 
-    const obtenerTareasByProyecto = (proyectoId) => {
-        dispatch({
-            type: TAREAS_PROYECTO,
-            payload: proyectoId,
-        });
+    const obtenerTareasByProyecto = async (proyecto) => {
+        try {
+            const respuesta = await clienteAxios.get(
+                process.env.REACT_APP_BACKEND_URL_TAREAS,
+                { params: { proyecto } },
+            );
+            dispatch({
+                type: TAREAS_PROYECTO,
+                payload: respuesta.data.tareas,
+            });
+        } catch (error) {
+            throw error;
+        }
     };
 
-    const agregarTarea = (tarea) => {
-        dispatch({
-            type: AGREGAR_TAREA,
-            payload: tarea,
-        });
-        obtenerTareasByProyecto(tarea.proyectoId);
+    const agregarTarea = async (tarea) => {
+        try {
+            const respuesta = await clienteAxios.post(
+                process.env.REACT_APP_BACKEND_URL_TAREAS,
+                tarea,
+            );
+            dispatch({
+                type: AGREGAR_TAREA,
+                payload: respuesta.data.tarea,
+            });
+        } catch (error) {}
     };
 
     const validarTarea = () => {
@@ -57,18 +54,20 @@ const TareasState = (props) => {
         });
     };
 
-    const eliminarTareaById = (id) => {
-        dispatch({
-            type: ELIMINAR_TAREA,
-            payload: id,
-        });
-    };
+    const eliminarTareaById = async (id, proyecto) => {
+        try {
+            await clienteAxios.delete(
+                process.env.REACT_APP_BACKEND_URL_TAREAS + '/' + id,
+                { params: { proyecto } },
+            );
 
-    const cambiaEstadoTarea = (tarea) => {
-        dispatch({
-            type: ESTADO_TAREA,
-            payload: tarea,
-        });
+            dispatch({
+                type: ELIMINAR_TAREA,
+                payload: id,
+            });
+        } catch (error) {
+            throw error;
+        }
     };
 
     const extraerTareaActual = (tarea) => {
@@ -78,23 +77,29 @@ const TareasState = (props) => {
         });
     };
 
-    const actualizarTarea = (tarea) => {
-        dispatch({
-            type: ACTUALIZAR_TAREA,
-            payload: tarea,
-        });
+    const actualizarTarea = async (tarea) => {
+        try {
+            const respuesta = await clienteAxios.put(
+                process.env.REACT_APP_BACKEND_URL_TAREAS + '/' + tarea._id,
+                tarea,
+            );
+            dispatch({
+                type: ACTUALIZAR_TAREA,
+                payload: respuesta.data,
+            });
+        } catch (error) {
+            throw error;
+        }
     };
 
     return (
         <TareasContext.Provider
             value={{
                 errorTarea: state.errorTarea,
-                tareas: state.tareas,
                 tareasProyecto: state.tareasProyecto,
                 tareaActual: state.tareaActual,
                 actualizarTarea,
                 agregarTarea,
-                cambiaEstadoTarea,
                 eliminarTareaById,
                 extraerTareaActual,
                 obtenerTareasByProyecto,
