@@ -11,7 +11,7 @@ const Layout = (props) => {
                     :root {
                         --gris: #3d3d3d;
                         --gris2: #6f6f6f;
-                        --gris3: #e1e1e1;
+                        --gris3: #e1e1e1
                         --naranja: #da552f;
                     }
 
@@ -59,7 +59,7 @@ const Layout = (props) => {
                 `}
             />
             <Head>
-                <html lang='es' />
+                {/* <Html lang='es' /> */}
                 <title>ProductHunt - Firebase - Next</title>
                 <link
                     rel='stylesheet'
@@ -73,7 +73,6 @@ const Layout = (props) => {
                 />
                 <link rel='stylesheet' href='/static/css/app.css' />
             </Head>
-            <h1>Header</h1>
             <Header />
             <main>{props.children}</main>
         </>

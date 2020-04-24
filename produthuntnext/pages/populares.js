@@ -5,12 +5,15 @@ import Layout from '../components/layout/Layout';
 const Heading = styled.h1`
     color: red;
 `;
-export default function Nosotros() {
+
+const Populares = () => {
     return (
         <div>
             <Layout>
-                <Heading>Nosotros</Heading>
+                <Heading>Populares</Heading>
             </Layout>
         </div>
     );
-}
+};
+
+export default Populares;

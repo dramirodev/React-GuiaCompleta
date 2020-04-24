@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Link from 'next/link';
+import Router from 'next/router';
 import Navegacion from './Navegacion';
 import Boton from '../ui/Boton';
 import Buscar from '../ui/Buscar';
+import { FirebaseContext } from '../../firebase';
 
 const ContenedorHeader = styled.div`
     max-width: 1200px;
@@ -16,7 +18,7 @@ const ContenedorHeader = styled.div`
     }
 `;
 
-const Logo = styled.p`
+const Logo = styled.a`
     color: var(--naranja);
     font-size: 4rem;
     line-height: 0;
@@ -26,7 +28,13 @@ const Logo = styled.p`
 `;
 
 const Header = () => {
-    const usuario = true;
+    const { usuario, firebase } = useContext(FirebaseContext);
+
+    const cerrarSesionUsuario = () => {
+        firebase.cerrarSesion();
+        Router.push('/');
+    };
+
     return (
         <header
             css={css`
@@ -57,16 +65,18 @@ const Header = () => {
                                 css={css`
                                     margin-right: 2rem;
                                 `}>
-                                Hola: David
+                                Hola: {usuario.displayName}
                             </p>
-                            <Boton bgColor={true}>Cerrar sesión</Boton>
+                            <Boton bgColor={true} onClick={cerrarSesionUsuario}>
+                                Cerrar sesión
+                            </Boton>
                         </>
                     ) : (
                         <>
-                            <Link href='/'>
+                            <Link href='/login'>
                                 <Boton bgColor={true}>Login</Boton>
                             </Link>
-                            <Link href='/'>
+                            <Link href='/crear-cuenta'>
                                 <Boton>Crear cuenta</Boton>
                             </Link>
                         </>

@@ -5,14 +5,15 @@ import Layout from '../components/layout/Layout';
 const Heading = styled.h1`
     color: red;
 `;
-const Home = () => {
+
+const Buscar = () => {
     return (
         <div>
             <Layout>
-                <Heading>Inicio</Heading>
+                <Heading>Buscar</Heading>
             </Layout>
         </div>
     );
 };
 
-export default Home;
+export default Buscar;
