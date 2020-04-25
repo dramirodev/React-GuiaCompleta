@@ -31,7 +31,7 @@ const Navegacion = props => {
       <NavLink to="/" activeClassName="pagina-actual">
         Inicio
       </NavLink>
-      <NavLink to="/propiedades" activeClassName="pagina-actual">
+      <NavLink to="/nuestras-propiedades" activeClassName="pagina-actual">
         Propiedades
       </NavLink>
       <NavLink to="/nosotros" activeClassName="pagina-actual">

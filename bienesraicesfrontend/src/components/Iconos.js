@@ -32,7 +32,6 @@ const Iconos = ({ wc, estacionamiento, habitaciones }) => {
     }
   `);
 
-  console.log(iconos);
   const imagenesIcons = iconos.edges;
 
   return (

@@ -41,7 +41,6 @@ const Content = styled.div`
 const PropiedadPreview = ({ propiedad }) => {
   const {
     nombre,
-    descripcion,
     imagen,
     wc,
     estacionamiento,
@@ -59,7 +58,9 @@ const PropiedadPreview = ({ propiedad }) => {
           estacionamiento={estacionamiento}
           habitaciones={habitaciones}
         />
-        <Boton to={urlSlug(nombre)}>Visitar la Propiedad</Boton>
+        <Boton to={urlSlug(nombre)}>
+          <a>Visitar la Propiedad</a>
+        </Boton>
       </Content>
     </Card>
   );
